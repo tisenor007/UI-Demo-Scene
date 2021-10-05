@@ -10,7 +10,7 @@ public class Player : Character
     public Text XPtxt;
     public GameObject gameOverCanvas;
     public Rigidbody rb;
-
+    public Image waterSplash;
     public int attackDamage;
 
     private int XP;
@@ -24,6 +24,7 @@ public class Player : Character
         shield = 50;
         health = 100;
         isDead = false;
+        waterSplash.color = new Color(1, 1, 1, 0);
     }
 
     // Update is called once per frame
@@ -53,6 +54,18 @@ public class Player : Character
         {
             this.isDead = true;
         }
+        if (other.gameObject.tag == "Water")
+        {
+            StopCoroutine(FadeImage(false));
+            waterSplash.color = new Color(1, 1, 1, 1);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Water")
+        {
+            StartCoroutine(FadeImage(true));
+        }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -64,6 +77,19 @@ public class Player : Character
             {
                 XP = XP + 100;
                 enemyScript.XPAbsorbed = true;
+            }
+        }
+        
+    }
+
+    IEnumerator FadeImage(bool fadeaway)
+    {
+        if (fadeaway)
+        {
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                waterSplash.color = new Color(1, 1, 1, i);
+                yield return null;
             }
         }
     }
