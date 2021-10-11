@@ -11,26 +11,17 @@ public class Enemy : Character
 
     public int speed;
 
-    public int attackDamage;
-
-    public bool XPAbsorbed;
-
     private Vector3 direction;
-
-    private float maxHealth;
     private float originSize;
 
-    private GameObject attackingPlayer;
-    private Player playerScript;
     // Start is called before the first frame update
     void Start()
     {
-        shield = 0;
-        health = 100;
-        isDead = false;
-        XPAbsorbed = false;
-        originSize = healthBar.rectTransform.sizeDelta.x;
         maxHealth = health;
+        maxShield = shield;
+        XPAbsorbed = false;
+        isDead = false;
+        originSize = healthBar.rectTransform.sizeDelta.x;
         direction = new Vector3(-1, 0, 0);
     }
 
@@ -56,8 +47,8 @@ public class Enemy : Character
     {
         if (other.gameObject.tag == "Player")
         {
-            attackingPlayer = other.gameObject;
-            playerScript = attackingPlayer.GetComponent<Player>();
+            target = other.gameObject;
+            targetScript = target.GetComponent<Player>();
         }
     }
     private void OnCollisionEnter(Collision other)
@@ -66,7 +57,7 @@ public class Enemy : Character
 
         if (other.gameObject.tag == "Player")
         {
-            TakeDamage(playerScript.attackDamage);
+            targetScript.TakeDamage(this.MeleeAttackDamage);
         }
     }
 }

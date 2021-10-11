@@ -1,25 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : Character
 {
+    public GameObject gun;
     public Text healthtxt;
     public Text shieldtxt;
     public Text XPtxt;
     public GameObject gameOverCanvas;
     public Rigidbody rb;
     public Image waterSplash;
-    public int attackDamage;
 
-    private int XP;
-
-    private GameObject currentEnemyAttacking;
-    private Enemy enemyScript;
+    private Gun gunScript;
     // Start is called before the first frame update
     void Start()
     {
+        maxHealth = health;
+        maxShield = shield;
+        XPAbsorbed = false;
+        gunScript = gun.GetComponent<Gun>();
         XP = 0;
         shield = 50;
         health = 100;
@@ -41,14 +41,22 @@ public class Player : Character
         else
         {
             gameOverCanvas.SetActive(false);
+            if (Input.GetButtonDown("Fire1"))
+            {
+                gunScript.Shoot();
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                gunScript.setIsFiring(false);
+            }
         }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            currentEnemyAttacking = other.gameObject;
-            enemyScript = currentEnemyAttacking.GetComponent<Enemy>();
+            target = other.gameObject;
+            targetScript = target.GetComponent<Enemy>();
         }
         if (other.gameObject.tag == "KillBox")
         {
@@ -58,6 +66,18 @@ public class Player : Character
         {
             StopCoroutine(FadeImage(false));
             waterSplash.color = new Color(1, 1, 1, 1);
+        }
+        if (other.gameObject.tag == "AmmoBox")
+        {
+            gunScript.AddAmmo(20);
+        }
+        if (other.gameObject.tag == "FirstAid")
+        {
+            Heal(25);
+        }
+        if (other.gameObject.tag == "ShieldRepair")
+        {
+            RegenShield(20);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -70,13 +90,13 @@ public class Player : Character
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" && gunScript.getIsFiring() == false)
         {
-            TakeDamage(enemyScript.attackDamage);
-            if (enemyScript.isDead == true && enemyScript.XPAbsorbed == false)
+            targetScript.TakeDamage(this.MeleeAttackDamage);
+            if (targetScript.getIsDead() == true && targetScript.getXPAbsorbed() == false)
             {
-                XP = XP + 100;
-                enemyScript.XPAbsorbed = true;
+                addXP(100);
+                targetScript.setXPAbsorbed(true);
             }
         }
         

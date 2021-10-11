@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - KillBox
   - Water
+  - AmmoBox
+  - FirstAid
+  - ShieldRepair
   layers:
   - Default
   - TransparentFX
