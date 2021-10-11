@@ -21,4 +21,8 @@ public class ButtonManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
+    public void EndGame()
+    {
+        Application.Quit();
+    }
 }
