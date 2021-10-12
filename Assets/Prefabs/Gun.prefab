@@ -6624,9 +6624,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammoText: {fileID: 1892062179809519276}
   ammo: 60
-  fpsCam: {fileID: 0}
+  head: {fileID: 0}
   gunRange: 100
   hitDamage: 25
+  coolDown: 0
   handHoldingThisGun: {fileID: 0}
   muzzelFlash: {fileID: 1892062179692725901}
   gunSound: {fileID: 1892062181260363370}
@@ -6686,7 +6687,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
