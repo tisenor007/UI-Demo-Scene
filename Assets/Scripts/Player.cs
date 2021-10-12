@@ -4,15 +4,12 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
-    public GameObject gun;
     public Text healthtxt;
     public Text shieldtxt;
     public Text XPtxt;
     public GameObject gameOverCanvas;
     public Rigidbody rb;
     public Image waterSplash;
-
-    private Gun gunScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +33,8 @@ public class Player : Character
         if (isDead == true)
         {
             gameOverCanvas.SetActive(true);
+            health = 0;
+            shield = 0;
             rb.constraints = RigidbodyConstraints.FreezeAll;
         }
         else
@@ -53,7 +52,12 @@ public class Player : Character
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Water")
+        {
+            StopCoroutine(FadeImage(false));
+            waterSplash.color = new Color(1, 1, 1, 1);
+        }
+        if (other.gameObject.tag == "Enemy" && getIsDead() == false)
         {
             target = other.gameObject;
             targetScript = target.GetComponent<Enemy>();
@@ -62,20 +66,15 @@ public class Player : Character
         {
             this.isDead = true;
         }
-        if (other.gameObject.tag == "Water")
-        {
-            StopCoroutine(FadeImage(false));
-            waterSplash.color = new Color(1, 1, 1, 1);
-        }
-        if (other.gameObject.tag == "AmmoBox")
+        if (other.gameObject.tag == "AmmoBox" && getIsDead() == false)
         {
             gunScript.AddAmmo(20);
         }
-        if (other.gameObject.tag == "FirstAid")
+        if (other.gameObject.tag == "FirstAid" && getIsDead() == false)
         {
             Heal(25);
         }
-        if (other.gameObject.tag == "ShieldRepair")
+        if (other.gameObject.tag == "ShieldRepair" && getIsDead() == false)
         {
             RegenShield(20);
         }
@@ -90,7 +89,7 @@ public class Player : Character
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Enemy" && gunScript.getIsFiring() == false)
+        if (other.gameObject.tag == "Enemy" && gunScript.getIsFiring() == false && getIsDead() == false)
         {
             targetScript.TakeDamage(this.MeleeAttackDamage);
             if (targetScript.getIsDead() == true && targetScript.getXPAbsorbed() == false)

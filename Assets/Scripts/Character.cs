@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    public GameObject gun;
     public int MeleeAttackDamage;
     public int shield;
     public int health;
@@ -14,6 +15,7 @@ public class Character : MonoBehaviour
     protected int maxHealth;
     protected int maxShield;
     protected int XP;
+    protected Gun gunScript;
     // Start is called before the first frame update
     void Start()
     {
