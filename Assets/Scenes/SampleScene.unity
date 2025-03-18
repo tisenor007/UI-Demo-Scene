@@ -626,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1892062181260363371, guid: d2c6692ef306ab9479aa06f08d38a007, type: 3}
       propertyPath: hitDamage
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1892062181260363371, guid: d2c6692ef306ab9479aa06f08d38a007, type: 3}
       propertyPath: handHoldingThisGun
@@ -5043,7 +5043,7 @@ PrefabInstance:
       objectReference: {fileID: 771658562}
     - target: {fileID: 1892062181260363371, guid: d2c6692ef306ab9479aa06f08d38a007, type: 3}
       propertyPath: coolDown
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1892062181260363371, guid: d2c6692ef306ab9479aa06f08d38a007, type: 3}
       propertyPath: hitDamage
